@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #f4f4f9;
 }
 
 .app {
@@ -13,25 +14,28 @@
 }
 
 .app h1 {
-  color: #333;
+  color: #222;
   margin-bottom: 2rem;
   text-align: center;
+  font-size: 2rem;
 }
 
 .loading {
-  color: #666;
+  color: #444;
   font-style: italic;
   text-align: center;
   padding: 1rem;
+  background-color: #e0e0e0;
+  border-radius: 8px;
 }
 
 .error {
-  background-color: #fee;
-  border: 1px solid #fcc;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
   border-radius: 8px;
   padding: 1rem;
   margin: 1rem 0;
-  color: #c33;
+  color: #721c24;
 }
 
 .error p {
@@ -40,7 +44,7 @@
 
 .warning {
   background-color: #fff3cd;
-  border: 1px solid #ffeaa7;
+  border: 1px solid #ffeeba;
   border-radius: 8px;
   padding: 1rem;
   margin: 1rem 0;
@@ -59,8 +63,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
   border-radius: 8px;
   padding: 1rem 1.5rem;
   transition: box-shadow 0.3s ease;
@@ -72,14 +76,14 @@
 
 .label {
   font-weight: bold;
-  color: #495057;
+  color: #343a40;
   font-size: 1.1rem;
 }
 
 .value {
   font-size: 1.3rem;
   font-weight: bold;
-  color: #007bff;
+  color: #0056b3;
   background-color: white;
   padding: 0.5rem 1rem;
   border-radius: 6px;

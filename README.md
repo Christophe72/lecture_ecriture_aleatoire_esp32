@@ -1,10 +1,15 @@
-# Lecture/Écriture ESP32 - Interface DHT22
+# Lecture/Écriture ESP32 - Interface DHT22 et autres capteurs
 
-Ce projet est une application React TypeScript qui affiche les données d'un capteur DHT22 connecté à un ESP32. Un serveur mock est inclus pour simuler les données si l'ESP32 n'est pas disponible.
+Ce projet est une application React TypeScript qui affiche les données de plusieurs capteurs connectés à un ESP32. Un serveur mock est inclus pour simuler les données si l'ESP32 n'est pas disponible.
 
 ## 🚀 Fonctionnalités
 
-- Affichage en temps réel des données de température et d'humidité
+- Affichage en temps réel des données de :
+  - Température et humidité (DHT22)
+  - Qualité de l'air (CO2)
+  - Luminosité
+  - Détection de mouvement
+  - Consommation électrique
 - Interface utilisateur moderne et responsive
 - Gestion des erreurs et état de chargement
 - Serveur mock pour les tests
@@ -14,7 +19,7 @@ Ce projet est une application React TypeScript qui affiche les données d'un cap
 
 - Node.js (version 16 ou supérieure)
 - npm ou pnpm
-- ESP32 avec capteur DHT22 (ou utiliser le serveur mock)
+- ESP32 avec capteurs (ou utiliser le serveur mock)
 
 ## 🛠️ Installation
 
@@ -26,6 +31,7 @@ Ce projet est une application React TypeScript qui affiche les données d'un cap
    ```
 
 2. Installez les dépendances :
+
    ```bash
    npm install
    ```
@@ -56,14 +62,21 @@ Ce projet est une application React TypeScript qui affiche les données d'un cap
 
 ### Option 2 : Avec ESP32 réel
 
-1. Configurez votre ESP32 pour envoyer des données JSON sur `http://localhost:5000/dht22`.
+1. Configurez votre ESP32 pour envoyer des données JSON sur `http://localhost:5000`.
+
 2. Le format attendu est :
+
    ```json
    {
      "temperature": 23.5,
-     "humidity": 65.2
+     "humidity": 65.2,
+     "co2": 450,
+     "luminosity": 300,
+     "motionDetected": true,
+     "power": 1200
    }
    ```
+
 3. Démarrez l'application React :
 
    ```bash
@@ -74,12 +87,17 @@ Ce projet est une application React TypeScript qui affiche les données d'un cap
 
 ## 🏗️ Structure du projet
 
-```
+```plaintext
 lecture_ecriture_esp32/
 ├── src/
 │   ├── App.tsx              # Composant principal
 │   ├── App.css              # Styles CSS
-│   ├── useDht22Data.ts      # Hook personnalisé pour récupérer les données
+│   ├── hooks/               # Hooks personnalisés
+│   │   ├── useDht22Data.ts          # Données DHT22
+│   │   ├── useAirQualitySensor.ts  # Données CO2
+│   │   ├── useLightSensor.ts       # Données luminosité
+│   │   ├── useMotionSensor.ts      # Données mouvement
+│   │   ├── useElectricitySensor.ts # Données consommation électrique
 │   ├── main.tsx             # Point d'entrée
 │   └── index.css            # Styles globaux
 ├── public/                  # Fichiers statiques
@@ -90,8 +108,8 @@ lecture_ecriture_esp32/
 
 ## 🔧 Configuration
 
-- L'application récupère les données toutes les 2 secondes depuis `http://localhost:5000/dht22`.
-- Pour modifier l'URL ou la fréquence, éditez le fichier `src/useDht22Data.ts`.
+- L'application récupère les données toutes les 2 secondes depuis `http://localhost:5000`.
+- Pour modifier l'URL ou la fréquence, éditez les fichiers dans `src/hooks/`.
 
 ## 🐛 Dépannage
 
@@ -105,14 +123,17 @@ lecture_ecriture_esp32/
 L'application utilise des interfaces TypeScript strictes :
 
 ```typescript
-interface Dht22Data {
+interface SensorData {
   temperature: number;
   humidity: number;
+  co2: number;
+  luminosity: number;
+  motionDetected: boolean;
+  power: number;
 }
 
-interface UseDht22DataReturn {
-  temperature: number | null;
-  humidity: number | null;
+interface UseSensorDataReturn {
+  value: number | null;
   isLoading: boolean;
   error: string | null;
 }
