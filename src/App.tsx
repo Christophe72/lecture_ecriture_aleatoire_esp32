@@ -4,6 +4,7 @@ import useAirQualitySensor from "./hooks/useAirQualitySensor";
 import useLightSensor from "./hooks/useLightSensor";
 import useMotionSensor from "./hooks/useMotionSensor";
 import useElectricitySensor from "./hooks/useElectricitySensor";
+import { useLoading } from "./contexts/LoadingContextBase";
 import "./App.css";
 
 const SensorData = memo(function SensorData({
@@ -31,8 +32,10 @@ function App() {
   const { luminosity } = useLightSensor();
   const { motionDetected } = useMotionSensor();
   const { power } = useElectricitySensor();
+  const { isInitialLoading } = useLoading();
 
-  if (isLoading) {
+  // On n'affiche l'écran de chargement global que pour le démarrage initial
+  if (isInitialLoading) {
     return <p className="loading">Chargement des données...</p>;
   }
 
@@ -61,6 +64,8 @@ function App() {
         />
         <SensorData label="Consommation électrique" value={power} unit=" W" />
       </div>
+      {/* Optionnel: petit indicateur non bloquant si le hook DHT22 rafraîchit */}
+      {isLoading && <small style={{ opacity: 0.6 }}>Mise à jour…</small>}
     </div>
   );
 }

@@ -11,7 +11,8 @@ export default function useMotionSensor() {
   }, []);
 
   useEffect(() => {
-    const delay = Math.random() * 1000; // Ajout d'un délai aléatoire
+    const delay = Math.random() * 500; // Ajout d'un délai aléatoire
+    updateMotion();
     const interval = setInterval(updateMotion, 2000 + delay);
     return () => clearInterval(interval);
   }, [updateMotion]);

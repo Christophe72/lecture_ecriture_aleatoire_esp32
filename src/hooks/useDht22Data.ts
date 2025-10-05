@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLoading } from "../contexts/LoadingContextBase";
 
 // Interface pour définir le type des données DHT22
 interface Dht22Data {
@@ -15,15 +16,18 @@ interface UseDht22DataReturn {
 }
 
 export default function useDht22Data(): UseDht22DataReturn {
+  const { begin, end } = useLoading();
   const [temperature, setTemperature] = useState<number | null>(null);
   const [humidity, setHumidity] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (initial = false) => {
       try {
         setIsLoading(true);
+        if (initial) begin({ initial: true });
+        else begin();
         setError(null);
 
         const response = await fetch("http://localhost:5000/dht22");
@@ -49,17 +53,18 @@ export default function useDht22Data(): UseDht22DataReturn {
         console.error("Erreur lors de la récupération des données:", err);
       } finally {
         setIsLoading(false);
+        end({ initial });
       }
     };
 
     // Fetch initial
-    fetchData();
+    fetchData(true);
 
     // Mise à jour périodique toutes les 2 secondes
-    const interval = setInterval(fetchData, 2000);
+    const interval = setInterval(() => fetchData(false), 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [begin, end]);
 
   return { temperature, humidity, isLoading, error };
 }

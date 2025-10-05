@@ -11,7 +11,8 @@ export default function useElectricitySensor() {
   }, []);
 
   useEffect(() => {
-    const delay = Math.random() * 1000; // Ajout d'un délai aléatoire
+    const delay = Math.random() * 500; // Ajout d'un délai aléatoire
+    updateElectricity();
     const interval = setInterval(updateElectricity, 2000 + delay);
     return () => clearInterval(interval);
   }, [updateElectricity]);

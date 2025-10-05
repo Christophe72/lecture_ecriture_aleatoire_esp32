@@ -11,7 +11,9 @@ export default function useAirQualitySensor() {
   }, []);
 
   useEffect(() => {
-    const delay = Math.random() * 1000; // Ajout d'un délai aléatoire
+    const delay = Math.random() * 500; // Ajout d'un délai aléatoire
+    // première mise à jour immédiate pour éviter un long "chargement"
+    updateAirQuality();
     const interval = setInterval(updateAirQuality, 2000 + delay);
     return () => clearInterval(interval);
   }, [updateAirQuality]);

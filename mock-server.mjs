@@ -24,10 +24,13 @@ function generateMockData() {
 }
 
 // Route pour obtenir les données DHT22
-app.get("/dht22", (req, res) => {
+app.get("/dht22", async (req, res) => {
   const data = generateMockData();
 
   console.log(`[${new Date().toISOString()}] Données envoyées:`, data);
+
+  // Ajout d'un délai simulé pour éviter les réponses instantanées
+  await new Promise((resolve) => setTimeout(resolve, Math.random() * 500));
 
   res.json(data);
 });
